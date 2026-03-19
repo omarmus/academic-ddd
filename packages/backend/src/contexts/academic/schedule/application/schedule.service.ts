@@ -22,4 +22,29 @@ export class ScheduleService {
     const schedule = new Schedule(id, data.courseId, data.slot);
     return this.scheduleRepository.save(schedule);
   }
+
+  async update(id: string, data:{ slot?: string, courseId?: string}): Promise<Schedule | null>{
+    const schedule = await this.scheduleRepository.findById(id);
+    if (!schedule) return null;
+
+    const slot = data.slot?.trim() ?? schedule.slot;
+    const courseId = data.courseId?.trim() ?? schedule.courseId;
+
+    const updated = new Schedule(
+      schedule.id,
+      courseId,
+      slot
+    );
+    
+    await this.scheduleRepository.save(updated);
+
+    return updated;
+  }
+
+  async delete(id: string): Promise<boolean> {
+    const schedule = await this.scheduleRepository.findById(id);
+    if (!schedule) return false;
+    await this.scheduleRepository.delete(id);
+    return true;
+  }
 }
