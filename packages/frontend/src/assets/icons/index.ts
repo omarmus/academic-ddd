@@ -13,3 +13,5 @@ export { IconMoon } from './IconMoon';
 export { IconClose } from './IconClose';
 export { IconBuilding } from './IconBuilding';
 export { IconChartBar } from './IconChartBar';
+export { IconEye } from './IconEye';
+export { IconEyeOff } from './IconEyeOff';
