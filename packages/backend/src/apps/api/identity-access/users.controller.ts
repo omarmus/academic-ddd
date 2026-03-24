@@ -39,7 +39,7 @@ export class UsersController {
   constructor(
     private readonly userService: UserService,
     private readonly roleService: RoleService,
-  ) {}
+  ) { }
 
   @Get()
   async findAll() {
@@ -109,17 +109,16 @@ export class UsersController {
     return { success: true };
   }
 
-
   @Patch(':id/email')
   async updateEmail(
     @Param('id') id: string,
-    @Body('email') email:string
+    @Body('email') email: string
   ) {
     const user = await this.userService.updateEmail(id, email);
     if (!user) throw new NotFoundException('User not found');
     return user;
   }
- 
+
   @Patch('me')
   async changeMyPassword(
     @Req() req: AuthenticatedRequest,
