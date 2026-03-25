@@ -9,7 +9,6 @@ import { ScheduleTypeOrmEntity } from './infrastructure/schedule-typeorm.entity'
 import { ScheduleTypeOrmRepository } from './infrastructure/schedule-typeorm.repository';
 import { StudentScheduleTypeOrmEntity } from './infrastructure/student-schedule-typeorm.entity';
 import { StudentScheduleTypeOrmRepository } from './infrastructure/student-schedule-typeorm.repository';
-import { CourseModule } from '../course/course.module';
 
 @Module({
   imports: [
@@ -17,7 +16,6 @@ import { CourseModule } from '../course/course.module';
       ScheduleTypeOrmEntity,
       StudentScheduleTypeOrmEntity,
     ]),
-    CourseModule,
   ],
   providers: [
     ScheduleService,
