@@ -4,7 +4,7 @@ import { MainLayout } from '../../templates/MainLayout';
 import { Button } from '../../atoms/Button';
 import { Input } from '../../atoms/Input';
 import { login } from '../../../services/authService';
-import { useAuthStore, type Role } from '../../../stores';
+import { useAuthStore } from '../../../stores';
 import { trackEvent, trackPageView } from '../../../lib/analytics';
 
 export function LoginPage() {
@@ -32,9 +32,13 @@ export function LoginPage() {
       setAuth(
         {
           id: result.user.id,
+          username: result.user.username,
           name: result.user.username,
           email: result.user.email,
-          role: result.user.role as Role,
+          role: {
+            id: '',
+            name: result.user.role,
+          },
         },
       );
       trackEvent('login', {

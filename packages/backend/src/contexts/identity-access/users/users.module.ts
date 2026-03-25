@@ -5,8 +5,10 @@ import { USER_REPOSITORY } from './domain/user.repository';
 import { UserTypeOrmEntity } from './infrastructure/user-typeorm.entity';
 import { UserTypeOrmRepository } from './infrastructure/user-typeorm.repository';
 
+import { RolesModule } from '../roles/roles.module';
+
 @Module({
-  imports: [TypeOrmModule.forFeature([UserTypeOrmEntity])],
+  imports: [TypeOrmModule.forFeature([UserTypeOrmEntity]), RolesModule],
   providers: [
     UserService,
     {
@@ -16,4 +18,4 @@ import { UserTypeOrmRepository } from './infrastructure/user-typeorm.repository'
   ],
   exports: [UserService],
 })
-export class UsersModule {}
+export class UsersModule { }
