@@ -8,3 +8,5 @@ export type {
   ChangePasswordResponse,
 } from './auth';
 export type { User, Role } from './user';
+export type { Schedule, CreateScheduleDto, UpdateScheduleDto } from './schedule';
+export type { Course } from './course';

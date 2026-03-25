@@ -6,11 +6,15 @@ import { EstudiantesPage, RegisterPage, EditPage } from './components/pages/Estu
 import { InscripcionCursosPage } from './components/pages/InscripcionCursosPage';
 import { UsuariosPage } from './components/pages/UsuariosPage';
 import { CursosPage } from './components/pages/CursosPage';
-import { HorariosPage } from './components/pages/HorariosPage';
 import { AulasPage } from './components/pages/AulasPage';
 import { MiPerfilPage } from './components/pages/MiPerfilPage';
 import { MisClasesPage } from './components/pages/MisClasesPage';
 import { PlaceholderPage } from './components/pages/PlaceholderPage';
+import {
+  HorariosPage,
+  RegisterPage as HorariosRegisterPage,
+  EditPage as HorariosEditPage,
+} from "./components/pages/HorariosPage";
 
 function App() {
   return (
@@ -28,10 +32,15 @@ function App() {
           <Route path="/estudiantes" element={<EstudiantesPage />} />
           <Route path="/estudiantes/registro" element={<RegisterPage />} />
           <Route path="/estudiantes/:id/editar" element={<EditPage />} />
-          <Route path="/inscripcion-cursos" element={<InscripcionCursosPage />} />
+          <Route
+            path="/inscripcion-cursos"
+            element={<InscripcionCursosPage />}
+          />
           <Route path="/usuarios" element={<UsuariosPage />} />
           <Route path="/cursos" element={<CursosPage />} />
           <Route path="/horarios" element={<HorariosPage />} />
+          <Route path="/horarios/registro" element={<HorariosRegisterPage />} />
+          <Route path="/horarios/:id/editar" element={<HorariosEditPage />} />
           <Route path="/mi-perfil" element={<MiPerfilPage />} />
           <Route path="/mis-clases" element={<MisClasesPage />} />
           <Route path="/mis-calificaciones" element={<PlaceholderPage title="Mis calificaciones" />} />

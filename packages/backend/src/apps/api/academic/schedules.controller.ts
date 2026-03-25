@@ -7,16 +7,40 @@ import {
   Body,
   Param,
   NotFoundException,
+  Patch,
+  Delete,
+  Query,
 } from '@nestjs/common';
 import { ScheduleService } from '../../../contexts/academic/schedule/application/schedule.service';
+import { ScheduleSortField } from '../../../contexts/academic/schedule/domain/schedule.repository';
+import { CreateScheduleDTO, UpdateScheduleDTO } from '../../../contexts/academic/schedule/application/dtos';
+
+const SORT_FIELDS: ScheduleSortField[] = ['slot', 'createdAt', 'courseName'];
 
 @Controller('schedules')
 export class SchedulesController {
   constructor(private readonly scheduleService: ScheduleService) {}
 
   @Get()
-  async findAll() {
-    return this.scheduleService.findAll();
+  async findAll(
+    @Query('page') pageStr?: string,
+    @Query('pageSize') pageSizeStr?: string,
+    @Query('sortBy') sortBy?: string,
+    @Query('sortOrder') sortOrder?: string,
+  ) {
+    const page = pageStr != null ? parseInt(pageStr, 10) : undefined;
+    const pageSize = pageSizeStr != null ? parseInt(pageSizeStr, 10) : undefined;
+    if (page != null && !Number.isNaN(page) && pageSize != null && !Number.isNaN(pageSize)) {
+      const sort = sortBy && SORT_FIELDS.includes(sortBy as ScheduleSortField) ? sortBy as ScheduleSortField : undefined;
+      const order = sortOrder === 'desc' || sortOrder === 'asc' ? sortOrder : undefined;
+      return this.scheduleService.findPaginatedWithUserInfo(
+        page,
+        pageSize,
+        sort,
+        order,
+      );
+    }
+    return this.scheduleService.findAllWithCourseInfo();
   }
 
   @Get(':id')

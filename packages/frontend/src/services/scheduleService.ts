@@ -7,6 +7,31 @@ import type {
 
 export type { Schedule, CreateScheduleDto, UpdateScheduleDto } from '../entities';
 
+export type SchedulesPaginatedParams = {
+  page: number;
+  pageSize: number;
+  sortBy?: string;
+  sortOrder?: 'asc' | 'desc';
+};
+
+export type SchedulesPaginatedResponse = {
+  data: Schedule[];
+  total: number;
+};
+
+export async function getSchedulesPaginated(
+  params: SchedulesPaginatedParams,
+): Promise<SchedulesPaginatedResponse> {
+  const search = new URLSearchParams();
+  search.set('page', String(params.page));
+  search.set('pageSize', String(params.pageSize));
+  if (params.sortBy) search.set('sortBy', params.sortBy);
+  if (params.sortOrder) search.set('sortOrder', params.sortOrder);
+  return apiRequest<SchedulesPaginatedResponse>(`/schedules?${search.toString()}`, {
+    defaultErrorMessage: 'Error al cargar horarios',
+  });
+}
+
 export async function getSchedules(): Promise<Schedule[]> {
   return apiRequest<Schedule[]>('/schedules', {
     defaultErrorMessage: 'Error al cargar horarios',
