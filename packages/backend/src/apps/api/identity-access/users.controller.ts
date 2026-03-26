@@ -75,6 +75,16 @@ export class UsersController {
     return toUserResponse(user);
   }
 
+  @Patch(':id/email')
+  async updateEmail(
+    @Param('id') id: string,
+    @Body('email') email:string
+  ) {
+    const user = await this.userService.updateEmail(id, email);
+    if (!user) throw new NotFoundException('User not found');
+    return user;
+  }
+ 
   @Patch('me')
   async changeMyPassword(
     @Req() req: AuthenticatedRequest,
@@ -98,4 +108,5 @@ export class UsersController {
 
     return { message: 'Password updated successfully' };
   }
+
 }
