@@ -22,7 +22,7 @@ async function bootstrap() {
     }),
   );
   app.enableCors({
-    origin: process.env.CORS_ORIGIN?.split(',').map((o) => o.trim()) ?? true,
+    origin: 'http://localhost:5173',
     credentials: true,
   });
   await app.listen(process.env.PORT ?? 3000);

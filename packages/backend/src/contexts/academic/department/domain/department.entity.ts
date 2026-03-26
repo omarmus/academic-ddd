@@ -1,8 +1,8 @@
-export class Course {
+export class Department {
   constructor(
     public readonly id: string,
     public name: string,
     public code: string,
-    public credits: number,
+    public parentId?: string | null,
   ) {}
 }
