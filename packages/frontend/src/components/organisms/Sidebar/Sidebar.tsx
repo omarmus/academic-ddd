@@ -66,10 +66,9 @@ const MENU_BY_ROLE: Record<Role, MenuItem[]> = {
 };
 
 const navLinkClass = ({ isActive }: { isActive: boolean }) =>
-  `flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors ${
-    isActive
-      ? 'bg-indigo-50 text-indigo-700 ring-1 ring-indigo-200/60 dark:bg-indigo-900/30 dark:text-indigo-300 dark:ring-indigo-700/60'
-      : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900 dark:text-slate-300 dark:hover:bg-slate-800 dark:hover:text-white'
+  `flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors ${isActive
+    ? 'bg-indigo-50 text-indigo-700 ring-1 ring-indigo-200/60 dark:bg-indigo-900/30 dark:text-indigo-300 dark:ring-indigo-700/60'
+    : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900 dark:text-slate-300 dark:hover:bg-slate-800 dark:hover:text-white'
   }`;
 
 type SidebarProps = {
@@ -80,7 +79,13 @@ type SidebarProps = {
 function SidebarNavContent({ onNavigate }: { onNavigate?: () => void }) {
   const user = useAuthStore((s) => s.user);
   const clearAuth = useAuthStore((s) => s.clearAuth);
-  const items = user ? MENU_BY_ROLE[user.role] : [];
+  const role =
+    user && typeof (user as any).role === 'string'
+      ? ((user as any).role as Role)
+      : user
+        ? (((user as any).role?.name as Role) ?? undefined)
+        : undefined;
+  const items = role ? MENU_BY_ROLE[role] ?? [] : [];
 
   if (items.length === 0) return null;
 
@@ -94,7 +99,7 @@ function SidebarNavContent({ onNavigate }: { onNavigate?: () => void }) {
       <nav className="flex flex-col gap-0.5" aria-label="Menú principal" onClick={onNavigate}>
         {items.map(({ to, label, icon }) => (
           <NavLink key={to} to={to} className={navLinkClass}>
-            {icon}
+            {icon as any}
             <span>{label}</span>
           </NavLink>
         ))}
@@ -115,7 +120,13 @@ function SidebarNavContent({ onNavigate }: { onNavigate?: () => void }) {
 
 export function Sidebar({ open = false, onClose }: SidebarProps) {
   const user = useAuthStore((s) => s.user);
-  const items = user ? MENU_BY_ROLE[user.role] : [];
+  const role =
+    user && typeof (user as any).role === 'string'
+      ? ((user as any).role as Role)
+      : user
+        ? (((user as any).role?.name as Role) ?? undefined)
+        : undefined;
+  const items = role ? MENU_BY_ROLE[role] ?? [] : [];
 
   if (items.length === 0) return null;
 

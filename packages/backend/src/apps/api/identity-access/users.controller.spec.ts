@@ -6,7 +6,9 @@ import {
 } from '@nestjs/common';
 import { UsersController } from './users.controller';
 import { UserService } from '../../../contexts/identity-access/users/application/user.service';
+import { RoleService } from '../../../contexts/identity-access/roles/application/role.service';
 import { User } from '../../../contexts/identity-access/users/domain/user.entity';
+import { Role } from '../../../contexts/identity-access/roles/domain/role.entity';
 
 describe('UsersController', () => {
   let controller: UsersController;
@@ -16,6 +18,12 @@ describe('UsersController', () => {
     create: jest.Mock;
     changePassword: jest.Mock;
   };
+  let roleService: {
+    findAll: jest.Mock;
+  };
+
+  const mockRole = new Role('role-1', 'Admin');
+
 
   const mockUser = new User(
     'user-1',
@@ -32,10 +40,16 @@ describe('UsersController', () => {
       create: jest.fn(),
       changePassword: jest.fn(),
     };
+    roleService = {
+      findAll: jest.fn().mockResolvedValue([mockRole]),
+    };
 
     const module: TestingModule = await Test.createTestingModule({
       controllers: [UsersController],
-      providers: [{ provide: UserService, useValue: userService }],
+      providers: [
+        { provide: UserService, useValue: userService },
+        { provide: RoleService, useValue: roleService },
+      ],
     }).compile();
 
     controller = module.get<UsersController>(UsersController);
@@ -99,7 +113,7 @@ describe('UsersController', () => {
         id: 'user-1',
         username: 'admin',
         email: 'admin@academic.local',
-        roleId: 'role-1',
+        role: { id: 'role-1', name: 'Admin' },
       },
     ]);
   });
@@ -113,7 +127,7 @@ describe('UsersController', () => {
       id: 'user-1',
       username: 'admin',
       email: 'admin@academic.local',
-      roleId: 'role-1',
+      role: { id: 'role-1', name: 'Admin' },
     });
   });
 
@@ -137,7 +151,7 @@ describe('UsersController', () => {
       id: 'user-1',
       username: 'admin',
       email: 'admin@academic.local',
-      roleId: 'role-1',
+      role: { id: 'role-1', name: 'UNKNOWN' },
     });
   });
 

@@ -5,8 +5,13 @@ const AUTH_STORAGE_KEY = 'academic_user';
 
 const VALID_ROLES: Role[] = ['ADMINISTRATOR', 'STUDENT', 'TEACHER'];
 
-function isRole(value: unknown): value is Role {
-  return typeof value === 'string' && VALID_ROLES.includes(value as Role);
+function isValidRoleObject(value: unknown): boolean {
+  return (
+    typeof value === 'object' &&
+    value !== null &&
+    'name' in value &&
+    VALID_ROLES.includes((value as { name: string }).name as Role)
+  );
 }
 
 function getStored(): { user: User | null } {
@@ -15,7 +20,7 @@ function getStored(): { user: User | null } {
     const raw = localStorage.getItem(AUTH_STORAGE_KEY);
     if (!raw) return { user: null };
     const data = JSON.parse(raw) as User;
-    const user = data?.id && isRole(data?.role) ? data : null;
+    const user = data?.id && isValidRoleObject(data?.role) ? data : null;
     return { user };
   } catch {
     return { user: null };

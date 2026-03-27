@@ -1,4 +1,4 @@
-gservices:
+services:
   backend:
     image: ghcr.io/TU_OWNER/academic-ddd-backend:latest
     env_file: .env.production

@@ -117,6 +117,7 @@ test.describe('Creación de horario (e2e)', () => {
 
     await page.goto('/horarios');
     await expect(page.getByRole('heading', { name: /horarios/i })).toBeVisible();
+    await expect(page.getByText('Cargando...')).not.toBeVisible();
     const existingTexts = await page.locator('tbody tr').allTextContents();
     await page.getByRole('button', { name: /agregar horario/i }).click();
     await expect(page).toHaveURL(/\/horarios\/registro/);
@@ -146,7 +147,9 @@ test.describe('Creación de horario (e2e)', () => {
     await expect(page).toHaveURL(/\/horarios$/);
     await expect(page.getByRole('heading', { name: /horarios/i })).toBeVisible();
 
-    const scheduleRow = page.locator('tbody tr').filter({ hasText: slot });
+    const scheduleRow = page.locator('tbody tr')
+      .filter({ hasText: slot })
+      .filter({ hasText: courseLabel });
     await expect(scheduleRow).toBeVisible();
   });
 

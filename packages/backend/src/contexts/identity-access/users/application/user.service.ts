@@ -16,7 +16,7 @@ export class UserService {
   constructor(
     @Inject(USER_REPOSITORY)
     private readonly userRepository: IUserRepository,
-  ) {}
+  ) { }
 
   async findAll(): Promise<User[]> {
     return this.userRepository.findAll();
@@ -95,6 +95,35 @@ export class UserService {
       email.trim(),
       user.roleId,
       user.password,
+    );
+    await this.userRepository.save(updated);
+    return updated;
+  }
+
+  async update(
+    id: string,
+    data: {
+      username?: string;
+      email?: string;
+      roleId?: string;
+      password?: string;
+    },
+  ): Promise<User | null> {
+    const user = await this.userRepository.findById(id);
+    if (!user) return null;
+
+    const { username, email, roleId, password } = data;
+    let passwordHash = user.password;
+    if (password) {
+      passwordHash = await this.createPasswordHash(password);
+    }
+
+    const updated = new User(
+      user.id,
+      username ?? user.username,
+      email ?? user.email,
+      roleId ?? user.roleId,
+      passwordHash,
     );
     await this.userRepository.save(updated);
     return updated;
