@@ -9,7 +9,7 @@ const PROGRAM_COLUMNS: DataTableColumn<Program>[] = [
   { id: "code", label: "Código", sortable: true, value: (r) => r.code, render: (r) => <span className="font-medium text-slate-900 dark:text-slate-100">{r.code}</span> },
   { id: "name", label: "Nombre", sortable: true, value: (r) => r.name },
   { id: "credits_required", label: "Créditos Requeridos", sortable: false, value: (r) => r.credits_required ?? "" },
-  { id: "departament_id", label: "Departamento", sortable: true, value: (r) => r.departament_id ?? "" },
+  { id: "department_id", label: "Departamento", sortable: true, value: (r) => r.department_id ?? "" },
 ];
 
 export function ProgramasPage() {

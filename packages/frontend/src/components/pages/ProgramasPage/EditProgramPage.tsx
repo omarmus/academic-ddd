@@ -11,7 +11,7 @@ export function EditProgramPage() {
   const [code, setCode] = useState('');
   const [name, setName] = useState('');
   const [credits_required, setCreditsRequired] = useState(0);
-  const [departament_id, setDepartamentId] = useState('');
+  const [department_id, setDepartmentId] = useState('');
   const [loading, setLoading] = useState(true);
   const [loadingData, setLoadingData] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -25,7 +25,7 @@ export function EditProgramPage() {
         setCode(data.code);
         setName(data.name);
         setCreditsRequired(data.credits_required);
-        setDepartamentId(data.departament_id);
+        setDepartmentId(data.department_id);
         setLoading(false);
       } catch (error) {
         setError('Error fetching program data');
@@ -46,7 +46,7 @@ export function EditProgramPage() {
         code: code.trim(),
         name: name.trim(),
         credits_required: credits_required,
-        departament_id: departament_id.trim()
+        department_id: department_id.trim()
       });
       navigate('/programas/', { state: { updated: true } });
     } catch (error) {
@@ -106,8 +106,8 @@ export function EditProgramPage() {
                 id="departament_id"
                 type="text"
                 required
-                value={departament_id}
-                onChange={(e) => setDepartamentId(e.target.value)}
+                value={department_id}
+                onChange={(e) => setDepartmentId(e.target.value)}
                 placeholder='Ej. CS'
               />
             </div>
